@@ -1,8 +1,8 @@
-FROM registry.cn-hangzhou.aliyuncs.com/bestwu/java:jre7
+FROM registry.cn-hangzhou.aliyuncs.com/bestwu/java:jre8
 MAINTAINER Peter Wu <piterwu@outlook.com>
 
-ENV TOMCAT_MAJOR=7 \
-    TOMCAT_VERSION=7.0.73 \
+ENV TOMCAT_MAJOR=8 \
+    TOMCAT_VERSION=8.5.9 \
     TOMCAT_HOME=/tomcat
 
 WORKDIR /tmp
