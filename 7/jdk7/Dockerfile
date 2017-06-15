@@ -40,9 +40,6 @@ ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOM
 
 RUN set -x \
 	\
-	&& ( /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 C.UTF-8 || true ) \
-	&& echo "export LANG=C.UTF-8" > /etc/profile.d/locale.sh \
-	&& /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib \
 	&& apk add --no-cache --virtual .fetch-deps \
 		ca-certificates \
 		tar \
