@@ -1,4 +1,4 @@
-FROM bestwu/java:7
+FROM bestwu/java:jdk7
 MAINTAINER Peter Wu <piterwu@outlook.com>
 
 #Tomcat 7.0.78 installation - Native
