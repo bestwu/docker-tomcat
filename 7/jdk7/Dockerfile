@@ -83,18 +83,7 @@ RUN apk add --no-cache gnupg \
 	&& if ! echo "$nativeLines" | grep 'INFO: Loaded APR based Apache Tomcat Native library' >&2; then \
 		echo >&2 "$nativeLines"; \
 		exit 1; \
-	fi \
-	&& set -e \
-	&& echo "alias ll='ls -la'" >> /root/.profile \
-	&& echo "alias l='ls -lart'" >> /root/.profile \
-	&& echo 'export PS1="[\[\e[1;31m\]\t \[\e[1;32m\]\w\[\e[0m\]]$ "' >> /root/.profile \
-	&& chmod +x /root/.profile \
-	&& cp /root/.profile /root/.bashrc \
-	&& cp /root/.profile /root/.ashrc
+	fi
 
 EXPOSE 8080
-
-# CMD startup.sh && tail -f /dev/null
-ENTRYPOINT ["startup.sh", ";"]
-CMD ["tail", "-f", "/dev/null"]
-# EOF
+CMD ["catalina.sh", "run"]
