@@ -1,21 +1,20 @@
-FROM bestwu/java:jdk7
+FROM bestwu/java:7
 MAINTAINER Peter Wu <piterwu@outlook.com>
 
 #Tomcat 7.0.78 installation - Native
+ENV TOMCAT_MAJOR=7 \
+	TOMCAT_VERSION=7.0.78 \
+	CATALINA_HOME=/usr/local/tomcat
+ENV	PATH=$CATALINA_HOME/bin:$PATH \
+	TOMCAT_TGZ_URL=https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz \
+	TOMCAT_NATIVE_LIBDIR=$CATALINA_HOME/native-jni-lib
+ENV	LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR
 
-ENV CATALINA_HOME /usr/local/tomcat
-ENV PATH $CATALINA_HOME/bin:$PATH
-RUN mkdir -p "$CATALINA_HOME"
 WORKDIR $CATALINA_HOME
 
-# let "Tomcat Native" live somewhere isolated
-ENV TOMCAT_NATIVE_LIBDIR $CATALINA_HOME/native-jni-lib
-ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR
-
-RUN apk add --no-cache gnupg
-
 # see https://www.apache.org/dist/tomcat/tomcat-8/KEYS
-RUN set -ex \
+RUN apk add --no-cache gnupg \
+	&& set -ex \
 	&& for key in \
 		05AB33110949707C93A279E3D3EFE6B686867BA6 \
 		07E48665A34DCAFAE522E5E6266191C37C037D42 \
@@ -32,13 +31,8 @@ RUN set -ex \
 		F7DA48BB64BCB84ECBA7EE6935CD23C10D498E23 \
 	; do \
 		gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
-	done
-
-ENV TOMCAT_MAJOR 7
-ENV TOMCAT_VERSION 7.0.78
-ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
-
-RUN set -x \
+	done \
+	&& set -x \
 	\
 	&& apk add --no-cache --virtual .fetch-deps \
 		ca-certificates \
@@ -81,19 +75,16 @@ RUN set -x \
 	&& apk add --virtual .tomcat-native-rundeps $runDeps \
 	&& apk del .fetch-deps .native-build-deps \
 	&& rm -rf "$nativeBuildDir" webapps/* \
-	&& rm bin/tomcat-native.tar.gz 
-
-# verify Tomcat Native is working properly
-RUN set -e \
+	&& rm bin/tomcat-native.tar.gz \
+	&& set -e \
 	&& nativeLines="$(catalina.sh configtest 2>&1)" \
 	&& nativeLines="$(echo "$nativeLines" | grep 'Apache Tomcat Native')" \
 	&& nativeLines="$(echo "$nativeLines" | sort -u)" \
 	&& if ! echo "$nativeLines" | grep 'INFO: Loaded APR based Apache Tomcat Native library' >&2; then \
 		echo >&2 "$nativeLines"; \
 		exit 1; \
-	fi
-
-RUN set -e \
+	fi \
+	&& set -e \
 	&& echo "alias ll='ls -la'" >> /root/.profile \
 	&& echo "alias l='ls -lart'" >> /root/.profile \
 	&& echo 'export PS1="[\[\e[1;31m\]\t \[\e[1;32m\]\w\[\e[0m\]]$ "' >> /root/.profile \
@@ -104,9 +95,6 @@ RUN set -e \
 EXPOSE 8080
 
 # CMD startup.sh && tail -f /dev/null
-
 ENTRYPOINT ["startup.sh", ";"]
-
 CMD ["tail", "-f", "/dev/null"]
-
 # EOF
