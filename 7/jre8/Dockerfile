@@ -1,5 +1,5 @@
 FROM bestwu/java:8
-MAINTAINER Peter Wu <piterwu@outlook.com>
+LABEL maintainer='Peter Wu <piterwu@outlook.com>'
 
 #Tomcat 7.0.78 installation - Native
 ENV TOMCAT_MAJOR=7 \
