@@ -1,9 +1,9 @@
 FROM bestwu/java:8
 LABEL maintainer='Peter Wu <piterwu@outlook.com>'
 
-#Tomcat 8.5.15 installation - Native
+#Tomcat 8.5.20 installation - Native
 ENV TOMCAT_MAJOR=8 \
-	TOMCAT_VERSION=8.5.15 \
+	TOMCAT_VERSION=8.5.20 \
 	CATALINA_HOME=/usr/local/tomcat
 ENV	PATH=$CATALINA_HOME/bin:$PATH \
 	TOMCAT_TGZ_URL=https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz \
