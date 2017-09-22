@@ -1,0 +1,12 @@
+sudo: required
+
+services:
+  - docker
+
+script:
+  - docker build ./7/jre7 -t bestwu/tomcat:7-jre7
+  - docker build ./7/jre8 -t bestwu/tomcat:7
+  - docker build ./8/jre7 -t bestwu/tomcat:8-jre7
+  - docker build ./8/jre8 -t bestwu/tomcat:8
+  - docker build ./8.5/jre7 -t bestwu/tomcat:8.5-jre7
+  - docker build ./8.5/jre8 -t bestwu/tomcat:8.5
