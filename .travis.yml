@@ -3,10 +3,14 @@ sudo: required
 services:
   - docker
 
+matrix:
+  include:
+    - env: BUILD_PATH="./7/jre7" IMAGE_TAG="bestwu/tomcat:7-jre7"
+    - env: BUILD_PATH="./7/jre8" IMAGE_TAG=" bestwu/tomcat:7"
+    - env: BUILD_PATH="./8/jre7" IMAGE_TAG="bestwu/tomcat:8-jre7"
+    - env: BUILD_PATH="./8/jre8" IMAGE_TAG="bestwu/tomcat:8"
+    - env: BUILD_PATH="./8.5/jre7" IMAGE_TAG="bestwu/tomcat:8.5-jre7"
+    - env: BUILD_PATH="./8.5/jre8" IMAGE_TAG="bestwu/tomcat:8.5"
+
 script:
-  - docker build ./7/jre7 -t bestwu/tomcat:7-jre7
-  - docker build ./7/jre8 -t bestwu/tomcat:7
-  - docker build ./8/jre7 -t bestwu/tomcat:8-jre7
-  - docker build ./8/jre8 -t bestwu/tomcat:8
-  - docker build ./8.5/jre7 -t bestwu/tomcat:8.5-jre7
-  - docker build ./8.5/jre8 -t bestwu/tomcat:8.5
+  - docker build $BUILD_PATH -t $IMAGE_TAG
