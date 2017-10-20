@@ -1,9 +1,9 @@
 FROM bestwu/java:7
 LABEL maintainer='Peter Wu <piterwu@outlook.com>'
 
-#Tomcat 7.0.81 installation - Native
+#Tomcat 7.0.82 installation - Native
 ENV TOMCAT_MAJOR=7 \
-	TOMCAT_VERSION=7.0.81 \
+	TOMCAT_VERSION=7.0.82 \
 	CATALINA_HOME=/usr/local/tomcat
 ENV	PATH=$CATALINA_HOME/bin:$PATH \
 	TOMCAT_TGZ_URL=https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz \
