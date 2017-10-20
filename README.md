@@ -1,5 +1,4 @@
-# tomcat
-
+[![Docker Image](https://img.shields.io/badge/docker%20image-available-green.svg)](https://hub.docker.com/r/bestwu/tomcat/)
 [![Build Status](https://travis-ci.org/bestwu/docker-tomcat.svg?branch=master)](https://travis-ci.org/bestwu/docker-tomcat)
 
 ## Supported tags
